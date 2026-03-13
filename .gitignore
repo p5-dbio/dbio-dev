@@ -1,0 +1,9 @@
+# Mounted DBIO repositories (separate git repos)
+/dbio-*/
+/dbio/
+
+# Claude - ignore everything except hooks, agents, and skills
+.claude/*
+!.claude/hooks/
+!.claude/agents/
+!.claude/skills/
