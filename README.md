@@ -22,7 +22,6 @@ git clone git@github.com:p5-dbio/dbio-dzil.git
 git clone git@github.com:p5-dbio/dbio-postgresql.git
 git clone git@github.com:p5-dbio/dbio-mysql.git
 git clone git@github.com:p5-dbio/dbio-sqlite.git
-git clone git@github.com:p5-dbio/dbio-replicated.git
 git clone git@github.com:p5-dbio/dbio-db2.git
 git clone git@github.com:p5-dbio/dbio-firebird.git
 git clone git@github.com:p5-dbio/dbio-informix.git
@@ -52,12 +51,11 @@ dbio-dev/
 
 | Directory | Distribution | Description |
 |-----------|-------------|-------------|
-| `dbio/` | DBIO | Core ORM (Schema, ResultSet, Row, Storage) |
+| `dbio/` | DBIO | Core ORM (Schema, ResultSet, Row, Storage, Replicated) |
 | `dbio-dzil/` | Dist-Zilla-PluginBundle-DBIO | Shared build system for all DBIO dists |
 | `dbio-postgresql/` | DBIO-PostgreSQL | PostgreSQL driver (introspection, deploy, enums, schemas) |
 | `dbio-mysql/` | DBIO-MySQL | MySQL + MariaDB driver |
 | `dbio-sqlite/` | DBIO-SQLite | SQLite driver |
-| `dbio-replicated/` | DBIO-Replicated | Master/slave replication storage |
 | `dbio-db2/` | DBIO-DB2 | IBM DB2 driver |
 | `dbio-firebird/` | DBIO-Firebird | Firebird/InterBase driver |
 | `dbio-informix/` | DBIO-Informix | Informix driver |

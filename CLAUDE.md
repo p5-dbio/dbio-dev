@@ -15,7 +15,7 @@ This workspace contains all DBIO distributions — a fork of DBIx::Class. Each s
 
 ### Core
 
-- **dbio/** — DBIO core ORM. Has its own complex dist.ini (NOT `[@DBIO]`).
+- **dbio/** — DBIO core ORM. Has its own complex dist.ini (NOT `[@DBIO]`). Includes replicated storage support in core.
 - **dbio-dzil/** — `Dist::Zilla::PluginBundle::DBIO` + `Pod::Weaver::PluginBundle::DBIO`. Self-bootstrapping via `[Bootstrap::lib]`.
 
 ### Actively Supported Drivers
@@ -23,7 +23,6 @@ This workspace contains all DBIO distributions — a fork of DBIx::Class. Each s
 - **dbio-postgresql/** — PostgreSQL driver. Most advanced: introspection via pg_catalog, deploy via test-and-compare, enums, schemas, RLS, indexes. Uses Moo.
 - **dbio-mysql/** — MySQL + MariaDB driver.
 - **dbio-sqlite/** — SQLite driver.
-- **dbio-replicated/** — Master/slave replication storage. Uses Moose.
 
 ### Extracted Drivers (not yet actively developed)
 
