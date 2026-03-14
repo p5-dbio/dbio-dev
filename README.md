@@ -1,26 +1,51 @@
 # DBIO Development Workspace
 
-Development workspace for **DBIO** — a modern fork of [DBIx::Class](https://metacpan.org/pod/DBIx::Class), the Perl ORM.
+Development workspace for **DBIO** (DBI Objects) — Relational mapping. Joins itself. Fully native. Everything included.
 
-## Getting Started
+A modern fork of [DBIx::Class](https://metacpan.org/pod/DBIx::Class).
+
+## Workspace Setup
+
+All DBIO repositories are checked out as subdirectories of this workspace.
+The workspace itself is a git repo that holds shared configuration
+(`.editorconfig`, `CLAUDE.md`, etc.) — the actual distributions live in their
+own repos underneath.
 
 ```bash
-git clone https://github.com/Perl5/dbio-dev.git
+# 1. Clone the workspace
+git clone git@github.com:p5-dbio/dbio-dev.git
 cd dbio-dev
 
-# Clone all DBIO repositories
-git clone https://github.com/Perl5/DBIO.git dbio
-git clone https://github.com/Perl5/DBIO-PostgreSQL.git dbio-postgresql
-git clone https://github.com/Perl5/DBIO-MySQL.git dbio-mysql
-git clone https://github.com/Perl5/DBIO-SQLite.git dbio-sqlite
-# ... etc.
+# 2. Clone all repositories (copy-paste block)
+git clone git@github.com:p5-dbio/dbio.git
+git clone git@github.com:p5-dbio/dbio-dzil.git
+git clone git@github.com:p5-dbio/dbio-postgresql.git
+git clone git@github.com:p5-dbio/dbio-mysql.git
+git clone git@github.com:p5-dbio/dbio-sqlite.git
+git clone git@github.com:p5-dbio/dbio-replicated.git
+git clone git@github.com:p5-dbio/dbio-db2.git
+git clone git@github.com:p5-dbio/dbio-firebird.git
+git clone git@github.com:p5-dbio/dbio-informix.git
+git clone git@github.com:p5-dbio/dbio-mssql.git
+git clone git@github.com:p5-dbio/dbio-oracle.git
+git clone git@github.com:p5-dbio/dbio-sybase.git
 
-# Install DBIO core dependencies
+# 3. Install core dependencies
 cd dbio && cpanm --installdeps . && cd ..
+```
 
-# Test a driver
-cd dbio-postgresql
-prove -l -I../dbio/lib t/
+After setup your directory should look like:
+
+```
+dbio-dev/
+  .editorconfig        # Shared editor settings (2-space indent, UTF-8, LF)
+  CLAUDE.md            # Central AI assistant instructions
+  dbio/                # Core ORM
+  dbio-dzil/           # Shared Dist::Zilla build system
+  dbio-postgresql/     # PostgreSQL driver
+  dbio-mysql/          # MySQL + MariaDB driver
+  dbio-sqlite/         # SQLite driver
+  ...
 ```
 
 ## Repositories
@@ -40,13 +65,31 @@ prove -l -I../dbio/lib t/
 | `dbio-oracle/` | DBIO-Oracle | Oracle driver |
 | `dbio-sybase/` | DBIO-Sybase | Sybase/ASE driver |
 
+## Working with Drivers
+
+Drivers link against the local DBIO core via `-I../dbio/lib`:
+
+```bash
+# Test a driver against local core
+cd dbio-postgresql
+prove -l -I../dbio/lib t/
+
+# Build a driver
+dzil build
+
+# Test core
+cd dbio
+prove -l t/
+```
+
 ## What Changed from DBIx::Class
 
 - **Namespace**: `DBIO::` instead of `DBIx::Class::`
 - **SQL::Abstract**: Replaces SQL::Abstract::Classic
 - **Integrated extensions**: TimeStamp, Helpers merged into core
+- **Sugar syntax**: `DBIO::Candy` (from DBIx::Class::Candy) and `DBIO::Cake` (from DBIx::Class::ResultDDL) included
 - **Database-specific drivers**: Each database is a separate CPAN distribution
-- **SQL::Translator optional**: PostgreSQL driver uses pg\_catalog introspection instead
+- **SQL::Translator optional**: PostgreSQL driver uses pg_catalog introspection instead
 
 ## Building
 

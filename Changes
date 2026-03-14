@@ -1,0 +1,8 @@
+Revision history for DBIO Development Workspace
+
+  - Initial workspace setup with CLAUDE.md, README.md, .editorconfig
+  - Added Claude Code skills: dbio-cake, dbio-candy, dbio-vanilla
+  - Updated CLAUDE.md: core tests must use DBIO::Test::Storage, not SQLite
+  - Rewrote README.md with proper setup instructions, all repos, driver workflow
+  - Added TODO_CHANGELOG.md: DBIO::ChangeLog design & implementation plan
+  - Added shared .editorconfig for consistent formatting across distributions

@@ -82,12 +82,13 @@ cpanm --installdeps .
 
 ## Testing
 
-- Unit tests use DBD::SQLite (in-memory)
+- **DBIO core tests MUST use `DBIO::Test::Storage` (fake/virtual storage), NEVER `dbi:SQLite` or any real database connection.** The fake storage captures SQL and supports mocks via `$storage->mock(qr/.../, \@rows)`. Real database testing belongs in the driver distributions (dbio-sqlite, dbio-postgresql, etc.).
 - Driver integration tests use env vars:
   - PostgreSQL: `TEST_DBIO_POSTGRESQL_DSN` or `DBIOTEST_PG_DSN`
   - MySQL: `DBIOTEST_MYSQL_DSN`
   - etc.
 - `DBIO::Test` provides shared test utilities
+- `DBIO::Test->init_schema` without arguments uses `DBIO::Test::Storage` — this is the correct default for core tests
 
 ## Architecture
 
