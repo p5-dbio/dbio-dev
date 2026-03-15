@@ -7,3 +7,6 @@
 !.claude/hooks/
 !.claude/agents/
 !.claude/skills/
+
+# Codex artifacts
+AGENTS.md

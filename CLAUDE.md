@@ -24,6 +24,10 @@ This workspace contains all DBIO distributions — a fork of DBIx::Class. Each s
 - **dbio-mysql/** — MySQL + MariaDB driver.
 - **dbio-sqlite/** — SQLite driver.
 
+### Async
+
+- **dbio-postgresql-async/** — Async PostgreSQL via EV::Pg. Bypasses DBI entirely, uses libpq directly. Pipeline mode, LISTEN/NOTIFY, COPY. Returns Future objects.
+
 ### Extracted Drivers (not yet actively developed)
 
 - **dbio-db2/** — IBM DB2

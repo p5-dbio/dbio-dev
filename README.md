@@ -62,6 +62,7 @@ dbio-dev/
 | `dbio-mssql/` | DBIO-MSSQL | Microsoft SQL Server driver |
 | `dbio-oracle/` | DBIO-Oracle | Oracle driver |
 | `dbio-sybase/` | DBIO-Sybase | Sybase/ASE driver |
+| `dbio-postgresql-async/` | DBIO-PostgreSQL-Async | Async PostgreSQL via EV::Pg (no DBI) |
 
 ## Working with Drivers
 
