@@ -7,17 +7,22 @@ Current documentation cleanup status for the DBIO workspace.
 - major factual drift from the DBIC-to-DBIO split was cleaned
 - replicated storage is documented as a core DBIO feature
 - top-level API docs were polished for `DBIO`, `DBIO::Cake`, `DBIO::Candy`,
-  `DBIO::ResultSet`, `DBIO::ResultSource`, and `DBIO::Test`
+  `DBIO::ResultSet`, `DBIO::ResultSource`, `DBIO::Test`, `DBIO::Core`,
+  `DBIO::Relationship`, `DBIO::ResultSetColumn`, `DBIO::Storage`,
+  `DBIO::Row`, and `DBIO::Schema`
 - the three primary driver components now describe their role and test story
   more consistently
+- the main loader entrypoints now describe their scope more clearly
+- the key manuals called out in the first audit have had their high-value text
+  cleanup pass
 - stale TODO items that described already-fixed architecture issues were
   removed from the split audit files
 
 ## What Is Left
 
-- medium-priority prose polish in deeper API and manual modules
-- a later style decision for the loader-family POD
-- low-priority consistency work in tiny fixture and PostgreSQL leaf modules
+- low-priority prose polish in a few deeper modules
+- optional family-wide loader modernization beyond the entrypoints
+- tiny fixture and PostgreSQL leaf-module consistency work
 
 See the split files for the current remaining backlog:
 

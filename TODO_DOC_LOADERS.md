@@ -6,9 +6,11 @@ Loader POD remains a separate cleanup track.
 
 - factual cleanup and provenance fixes were already made where needed
 - the PostgreSQL loader itself was rebuilt onto the new introspection path
+- the main loader entrypoints in core, MySQL, PostgreSQL, and SQLite now
+  describe their role more clearly
 
 ## Remaining
 
-- decide whether the loader family gets a full style modernization or stays in
-  mostly legacy POD structure with only targeted edits
-- if touched again, modernize the family together to avoid mixed styles
+- only a broader family-wide modernization remains
+- if touched again, modernize the deeper loader modules together to avoid mixed
+  styles

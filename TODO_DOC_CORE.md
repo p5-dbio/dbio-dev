@@ -21,6 +21,4 @@ Current remaining POD work for core DBIO modules.
 - `dbio/lib/DBIO/Compat/DBIxClass.pm`
   - still worth a tone pass so the compatibility story reads intentionally,
     not like leftover migration text
-- `dbio/lib/DBIO/Row.pm`
-- `dbio/lib/DBIO/Schema.pm`
-  - only light prose cleanup remains around core cross-references
+- anything else in this area is now optional sentence-level polish
