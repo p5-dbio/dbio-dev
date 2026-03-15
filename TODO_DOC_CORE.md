@@ -1,6 +1,6 @@
 # TODO_DOC_CORE
 
-Current remaining POD work for core DBIO modules.
+Current status for the core-module POD cleanup.
 
 ## Done
 
@@ -15,10 +15,5 @@ Current remaining POD work for core DBIO modules.
 
 ## Remaining
 
-- `dbio/lib/DBIO/Storage/DBI.pm`
-  - very large POD; still worth a later clarity pass around replication hooks
-    and where conceptual material should live
-- `dbio/lib/DBIO/Compat/DBIxClass.pm`
-  - still worth a tone pass so the compatibility story reads intentionally,
-    not like leftover migration text
-- anything else in this area is now optional sentence-level polish
+- no factual core-module cleanup remains in this tracked set
+- future work here is optional sentence-level polish only

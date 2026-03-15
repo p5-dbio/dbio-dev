@@ -32,7 +32,8 @@ Coverage map for the split POD audit files in this workspace root.
 - top-level driver modules
 - key manuals and teaching docs
 - main API entrypoints
-- selected PostgreSQL feature modules
+- PostgreSQL feature entrypoints
+- shared test fixtures that had user-visible POD
 
 ### Still mostly backlog, not rewrite work
 
@@ -51,10 +52,6 @@ internal enough that they should not block the main documentation pass:
 - `DBIO::Test::Taint::*`
 - many tiny helper modules under `DBIO::Relationship::*`
 - many tiny helper modules under `DBIO::Replicated::*`
-
-One notable exception: `DBIO::Test::Kubernetes` is not low-value anymore,
-because it still appears to expose DBIC-era naming in user-visible text and
-defaults.
 
 ## Recommended Sequence
 

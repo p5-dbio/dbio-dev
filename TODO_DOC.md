@@ -20,9 +20,9 @@ Current documentation cleanup status for the DBIO workspace.
 
 ## What Is Left
 
-- low-priority prose polish in a few deeper modules
 - optional family-wide loader modernization beyond the entrypoints
-- tiny fixture and PostgreSQL leaf-module consistency work
+- later leaf-level polishing only if a future release wants a fully uniform
+  voice across every helper module
 
 See the split files for the current remaining backlog:
 
