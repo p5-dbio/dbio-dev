@@ -4,7 +4,7 @@
 
 Event-loop-agnostic async database support for DBIO. The core defines abstract
 interfaces and async-aware API surfaces. Actual async implementations ship as
-separate distributions (e.g. `DBIO::EV::Pg`, `Net::Async::DBIO`, `Mojo::DBIO`)
+separate distributions (e.g. `DBIO::PostgreSQL::Async`, `Net::Async::DBIO`, `Mojo::DBIO`)
 so DBIO core never depends on any specific event loop.
 
 The first target is PostgreSQL via [EV::Pg](https://metacpan.org/pod/EV::Pg),
@@ -24,7 +24,7 @@ DBIO::Schema → DBIO::ResultSet → DBIO::Row
               │   ├── DBIO::MySQL::Storage
               │   └── DBIO::SQLite::Storage
               └── DBIO::Storage::Async (async base — new)
-                  ├── DBIO::EV::Pg::Storage      (separate dist, uses EV::Pg)
+                  ├── DBIO::PostgreSQL::Async::Storage      (separate dist, uses EV::Pg)
                   ├── Net::Async::DBIO::Storage   (separate dist, uses IO::Async)
                   └── Mojo::DBIO::Storage         (separate dist, uses Mojo::IOLoop)
 ```
@@ -85,7 +85,7 @@ package DBIO::Future;
 #   ->is_failed()                           # true if resolved with error
 #
 # Async distributions map to their event loop's native Future:
-#   DBIO::EV::Pg       → Future.pm (Future::XS or Future::PP)
+#   DBIO::PostgreSQL::Async       → Future.pm (Future::XS or Future::PP)
 #   Net::Async::DBIO   → Future.pm (native)
 #   Mojo::DBIO         → Mojo::Promise (wrapped to match interface)
 ```
@@ -144,7 +144,7 @@ Each storage declares its Future class:
 # Default in DBIO::Storage (and DBIO::Test::Storage)
 sub future_class { 'DBIO::Test::Future' }
 
-# In DBIO::EV::Pg::Storage (separate distribution)
+# In DBIO::PostgreSQL::Async::Storage (separate distribution)
 sub future_class { 'Future' }  # uses Future.pm from CPAN
 
 # In Mojo::DBIO::Storage (separate distribution)
@@ -329,7 +329,7 @@ my $f = $schema->txn_scope_guard_async->then(sub {
 
 ## What Async Distributions Provide
 
-### `DBIO::EV::Pg` (first implementation target)
+### `DBIO::PostgreSQL::Async` (first implementation target)
 
 Implements `DBIO::Storage::Async` using EV::Pg directly — no DBI, no DBD::Pg.
 EV::Pg speaks libpq's async protocol natively.
@@ -337,7 +337,7 @@ EV::Pg speaks libpq's async protocol natively.
 ```perl
 # Schema setup
 my $schema = MyApp::Schema->connect(
-    'DBIO::EV::Pg',        # storage_type
+    'DBIO::PostgreSQL::Async',        # storage_type
     {
         host     => 'localhost',
         dbname   => 'myapp',
@@ -380,14 +380,14 @@ $schema->storage->copy_in('artist', [qw/name genre/], sub {
 });
 ```
 
-**What `DBIO::EV::Pg` contains:**
+**What `DBIO::PostgreSQL::Async` contains:**
 
 | Module | Role |
 |--------|------|
-| `DBIO::EV::Pg::Storage` | Implements `DBIO::Storage::Async`, wraps EV::Pg |
-| `DBIO::EV::Pg::Pool` | Connection pool management with EV watchers |
-| `DBIO::EV::Pg::Cursor` | Async cursor for streaming large result sets |
-| `DBIO::EV::Pg::Pipeline` | Pipeline mode batch execution |
+| `DBIO::PostgreSQL::Async::Storage` | Implements `DBIO::Storage::Async`, wraps EV::Pg |
+| `DBIO::PostgreSQL::Async::Pool` | Connection pool management with EV watchers |
+| `DBIO::PostgreSQL::Async::Cursor` | Async cursor for streaming large result sets |
+| `DBIO::PostgreSQL::Async::Pipeline` | Pipeline mode batch execution |
 
 **Connection info — NOT DBI DSN format:**
 
@@ -542,13 +542,13 @@ The ChangeLog system (see `TODO_CHANGELOG.md`) integrates naturally with async:
 - **Write path**: `changelog_write_entry` already has a driver hook point.
   Async storage overrides it to return a Future instead of blocking.
 - **LISTEN/NOTIFY**: `changelog_notify` in `DBIO::PostgreSQL::ChangeLog`
-  already calls `pg_notify()`. With `DBIO::EV::Pg`, this becomes non-blocking
+  already calls `pg_notify()`. With `DBIO::PostgreSQL::Async`, this becomes non-blocking
   and the notification is received via `$storage->listen('changelog', sub {...})`.
 - **Real-time changelog streaming**: An async storage can subscribe to changelog
   notifications and push events to application code without polling.
 
 ```perl
-# Real-time changelog watching with DBIO::EV::Pg
+# Real-time changelog watching with DBIO::PostgreSQL::Async
 $schema->storage->listen('changelog', sub {
     my ($channel, $payload) = @_;
     my $event = decode_json($payload);
@@ -578,10 +578,10 @@ lib/DBIO/
 └── ResultSet.pm                   # Add all_async, first_async, count_async etc.
 ```
 
-### Separate distribution: `dbio-ev-pg/`
+### Separate distribution: `dbio-postgresql-async/`
 
 ```
-dbio-ev-pg/
+dbio-postgresql-async/
 ├── dist.ini                       # [@DBIO]
 ├── cpanfile                       # depends on EV::Pg, Future, DBIO
 └── lib/DBIO/EV/Pg/
@@ -623,14 +623,14 @@ documentation. The sync path is completely untouched.
 **Estimated scope:** ~300 lines. ResultSet methods are thin wrappers that
 delegate to storage and handle row inflation.
 
-### Phase 3: `DBIO::EV::Pg` (separate distribution)
+### Phase 3: `DBIO::PostgreSQL::Async` (separate distribution)
 
 First real async driver. This is where the bulk of async complexity lives.
 
-1. `DBIO::EV::Pg::Storage` — implements all async storage methods using EV::Pg
-2. `DBIO::EV::Pg::Pool` — connection pool with EV watchers
-3. `DBIO::EV::Pg::Cursor` — async cursor for streaming result sets
-4. `DBIO::EV::Pg::Pipeline` — pipeline mode for batch operations
+1. `DBIO::PostgreSQL::Async::Storage` — implements all async storage methods using EV::Pg
+2. `DBIO::PostgreSQL::Async::Pool` — connection pool with EV watchers
+3. `DBIO::PostgreSQL::Async::Cursor` — async cursor for streaming result sets
+4. `DBIO::PostgreSQL::Async::Pipeline` — pipeline mode for batch operations
 5. LISTEN/NOTIFY support — integrates with ChangeLog notifications
 6. Prepared statement caching
 7. COPY IN/OUT support for bulk data transfer
@@ -670,7 +670,7 @@ $schema->txn_do(sub { $row->update({ name => 'New' }) });   # blocking
 # ── Async with EV::Pg ───────────────────────────────────────
 
 my $schema = MyApp::Schema->connect(
-    'DBIO::EV::Pg',
+    'DBIO::PostgreSQL::Async',
     { host => 'localhost', dbname => 'myapp', pool_size => 10 },
 );
 
@@ -744,7 +744,7 @@ $schema->storage->listen('new_order', sub {
 
 - **Which Future?**: Different event loops have different Future
   implementations. Should we standardize on `Future.pm`? Recommendation:
-  document the interface, let each distribution pick. `DBIO::EV::Pg` and
+  document the interface, let each distribution pick. `DBIO::PostgreSQL::Async` and
   `Net::Async::DBIO` use `Future.pm` naturally. `Mojo::DBIO` wraps
   `Mojo::Promise`. If interop is needed, add adapter later.
 
@@ -772,7 +772,7 @@ Phase 1 (storage interface) and Phase 2 (ResultSet async API) are low-risk
 additions to core — they add new methods without changing existing ones.
 Estimated ~500 lines total, all additive.
 
-Phase 3 (`DBIO::EV::Pg`) is the real work — a complete storage implementation
+Phase 3 (`DBIO::PostgreSQL::Async`) is the real work — a complete storage implementation
 using a non-DBI client library. This is ~2000 lines but lives in its own
 distribution with no risk to core stability.
 
