@@ -25,26 +25,20 @@ Coverage map for the split POD audit files in this workspace root.
 
 ## Coverage Status
 
-### Reviewed at first-pass level
+### Reviewed and mostly acted on
 
 - core public modules
 - replicated modules
-- loader family
 - top-level driver modules
-- selected driver storage/test docs
-- manuals and teaching docs
-- key API surface modules
-- PostgreSQL new feature modules
+- key manuals and teaching docs
+- main API entrypoints
+- selected PostgreSQL feature modules
 
-### Not reviewed in the same depth yet
+### Still mostly backlog, not rewrite work
 
-- every single tiny fixture/result class under `dbio/lib/DBIO/Test/...`
-- every single PostgreSQL leaf module individually beyond the sampled set
-- low-level helper modules with tiny or no user-facing POD
-
-These are mostly lower-value for prose polish than the main entrypoints and
-conceptual docs. The remaining risk here is now low and concentrated in a few
-special cases rather than an unknown broad area.
+- the wider loader family
+- every tiny fixture/result helper under `dbio/lib/DBIO/Test/...`
+- every PostgreSQL leaf module beyond the sampled set
 
 ## Known Low-Priority Namespaces
 
@@ -64,7 +58,6 @@ defaults.
 
 ## Recommended Sequence
 
-1. Finish factual cleanup in reviewed files.
-2. Rewrite the high-level teaching/docs surface.
-3. Re-run a lighter consistency pass over leaf modules.
-4. Only then touch low-value fixture/test namespaces if needed.
+1. Leave the finished high-level docs alone unless facts change again.
+2. Decide separately whether loader POD should get a family-wide modernization.
+3. Do a later consistency pass over leaf modules only if release time allows.
