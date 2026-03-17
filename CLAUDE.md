@@ -10,6 +10,7 @@ This workspace contains all DBIO distributions — a fork of DBIx::Class. Each s
 - SQL::Abstract replaces SQL::Abstract::Classic
 - Integrates DBIx::Class::TimeStamp, DBIx::Class::Helpers into core
 - SQL::Translator is OPTIONAL — being replaced by DB-specific modules
+- LIMIT/OFFSET: No more `sql_limit_dialect` string dispatch or `emulate_limit()`. Each driver's SQLMaker provides an `apply_limit` method. Default is `LIMIT ? OFFSET ?`. If you had custom `emulate_limit()` or `limit_dialect` workarounds, override `apply_limit` on your SQLMaker subclass instead.
 
 ## Distributions
 
