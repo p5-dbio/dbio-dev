@@ -10,3 +10,6 @@
 
 # Codex artifacts
 AGENTS.md
+
+# Project-local git worktrees for sibling DBIO repos
+.worktrees/
