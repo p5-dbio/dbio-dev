@@ -49,13 +49,12 @@ All driver distributions use `[@DBIO]` plugin bundle:
 
 ```ini
 name = DBIO-DriverName
-author = DBIO & DBIx::Class Authors
-license = Perl_5
 
 [@DBIO]
 ```
 
-- `copyright_holder` set automatically: `heritage = 1` → `DBIO & DBIx::Class Authors`, otherwise → `DBIO Authors`. Override via `copyright_holder = ...` in `[@DBIO]`.
+- `author`, `license`, and `copyright_holder` are all set automatically by the bundle. No need for these in `dist.ini`.
+- `heritage = 1` → author/copyright_holder `DBIO & DBIx::Class Authors`; default → `DBIO Authors`. Override copyright_holder via `copyright_holder = ...` in `[@DBIO]`.
 - `LICENSE` file must be committed in the repo. Heritage repos use the original DBIx::Class license with DBIO attribution header. Non-heritage repos use a standard Perl_5 license. No `[License]` plugin — the file is gathered from git as-is.
 - PodWeaver with `=attr` and `=method` collectors; `heritage = 1` uses `@DBIO::Heritage` which adds DBIx::Class attribution block.
 
