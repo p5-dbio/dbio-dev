@@ -55,11 +55,23 @@ license = Perl_5
 [@DBIO]
 ```
 
-- Version from git tags (first release: 0.900)
-- PodWeaver with `=attr` and `=method` collectors
-- Custom copyright: DBIO Authors + DBIx::Class Authors
+- `copyright_holder` set automatically: `heritage = 1` → `DBIO & DBIx::Class Authors`, otherwise → `DBIO Authors`. Override via `copyright_holder = ...` in `[@DBIO]`.
+- `LICENSE` file must be committed in the repo. Heritage repos use the original DBIx::Class license with DBIO attribution header. Non-heritage repos use a standard Perl_5 license. No `[License]` plugin — the file is gathered from git as-is.
+- PodWeaver with `=attr` and `=method` collectors; `heritage = 1` uses `@DBIO::Heritage` which adds DBIx::Class attribution block.
 
-**Exception**: `dbio/` core uses its own dist.ini (VersionFromMainModule, MakeMaker::Awesome, MetaNoIndex etc.)
+**Exception**: `dbio/` core uses `[@DBIO] core = 1` — VersionFromMainModule, MakeMaker::Awesome, ExecDir, MetaResources etc.
+
+## Versioning — NEVER bump $VERSION manually
+
+`$VERSION` in driver modules is managed by `RewriteVersion::Transitional` (part of
+`@Git::VersionManager`). It is rewritten automatically during `dzil release` based
+on the git tag. **Never edit `$VERSION` by hand.** The value in source between
+releases is the previous released version — that is correct and intentional.
+
+`{{$NEXT}}` in `Changes` is filled in by `NextRelease` during `dzil release`.
+Just add bullet points under `{{$NEXT}}` — never write a version line manually.
+
+`dzil release` must be run by the user, not by AI.
 
 ## Standard Commands
 
@@ -67,7 +79,7 @@ license = Perl_5
 # From any driver directory
 dzil build          # Build
 dzil test           # Test
-dzil release        # Release to CPAN
+dzil release        # Release to CPAN (user only, not AI)
 prove -l t/         # Quick test
 prove -l -I../dbio/lib t/   # Test with local DBIO core
 
@@ -93,6 +105,7 @@ cpanm --installdeps .
   - etc.
 - `DBIO::Test` provides shared test utilities
 - `DBIO::Test->init_schema` without arguments uses `DBIO::Test::Storage` — this is the correct default for core tests
+- **Driver-specific test result classes** live in the driver's `lib/` namespace (e.g. `DBIO::PostgreSQL::Test::SequenceTest`), NOT in `t/lib/`. Load them via hashref syntax: `DBIO::Test::Schema->load_classes({ 'DBIO::PostgreSQL::Test' => ['SequenceTest'] })`. Never use `FindBin` or `use lib` in tests.
 
 ## Architecture
 
