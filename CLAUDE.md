@@ -79,12 +79,28 @@ Just add bullet points under `{{$NEXT}}` — never write a version line manually
 dzil build          # Build
 dzil test           # Test
 dzil release        # Release to CPAN (user only, not AI)
-prove -l t/         # Quick test
-prove -l -I../dbio/lib t/   # Test with local DBIO core
+prove -l t/         # Quick test (see .proverc below)
 
 # Dependencies
 cpanm --installdeps .
 ```
+
+## .proverc — workspace-local prove configuration
+
+Every driver distribution has a `.proverc` that automatically adds the
+right `-I` paths when running `prove`:
+
+```
+-Ilib
+-It/lib
+-I../dbio/lib
+-I../dbio/t/lib
+```
+
+This means `prove -l t/` in any driver directory automatically picks up
+the local dbio core source without needing to pass `-I../dbio/lib` by hand.
+The `.proverc` is excluded from CPAN tarballs — it is a workspace
+development tool only.
 
 ## POD Conventions
 
