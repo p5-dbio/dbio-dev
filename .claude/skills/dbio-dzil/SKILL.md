@@ -32,8 +32,6 @@ copyright_year = 2005
 [@DBIO]
 core = 1
 
-[MetaNoIndex]
-; ...
 [MetaResources]
 ; ...
 ```
